@@ -1,0 +1,956 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--This is a an orginal code by Somtoya Arinze. It was designed to fit a 13" screen. So if you have a bigger monitor, it may look a bit spacious and/or small. I spent weeks working on this blog  and I hope this reflectsmy knowledge of HTML/CSS/Javascript. By the way, this is not my main blog, but a sideblog that I use to write, compile, and run my code for my actual blog.
+
+I admit that I did borrow a few scripts to allow some of these cool features to work. I mentioned which ones they are in the comments below. The entire code is commented to describe and explain what I did, why I did it, and how it works. Although I did surrender and borrow a few scripts, the majority of this code comes from my own blood sweat and tears.-->
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<!--This is a borrowed pop-up message script.
+What I changed was the dimensions and it's functions. 
+I filled the entire page and centered the message box and allowed the page to be it's own exit function--> 
+
+<script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script> 
+<script> 
+$(document).ready(function() { 
+// 
+$('a.poplight[href^=#]').click(function() { 
+var popID = $(this).attr('rel'); //Get Popup Name 
+var popURL = $(this).attr('href'); //Get Popup href to define size 
+var query= popURL.split('?'); 
+var dim= query[1].split('&'); 
+var popWidth = dim[0].split('=')[1]; //Gets the first query string value 
+$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><img class="btn_close"/></a>'); 
+var popMargTop = ($('#' + popID).height() + 80) / 2; 
+var popMargLeft = ($('#' + popID).width() + 80) / 2; 
+//Apply Margin to Popup 
+$('#' + popID).css({ 
+'margin-top' : -popMargTop,
+'margin-left' : -popMargLeft 
+}); 
+$('body').append('<div id="fade"></div>');
+$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) 
+return false; 
+}); 
+$('a.close, #fade').live('click', function() { 
+$('#fade , .popup_block').fadeOut(function() { 
+$('#fade, a.close').remove(); //fade them both out 
+}); 
+return false; 
+}); 
+}); 
+</script>
+</head>
+
+<!--Defining attributes for the side menu-->
+<head>
+    <meta name="color:bg" content="#FFFFFF">
+    <meta name="color:link" content="#E6E4E4">
+    <meta name="color:hover" content="#454545">
+    <meta name="color:infobg" content="#fafafa">
+    <meta name="color:text" content="#9A9A9A">
+    <meta name="color:sidebar background" content="#000">
+    <meta name="color:tags" content="#EDEDED">
+    <meta name="color:scrollbar" content="#f1f0f0">
+    <meta name="color:border" content="#FAFAFA">
+    <meta name="color:borders" content="#FAFAFA">
+    <meta name="color:title" content="#454545">
+    <meta name="color:border1" content="#000000">
+    <meta name="color:border2" content="#454545">
+    <meta name="color:border3" content="#000000">
+    <meta name="color:border4" content="#454545">
+    <meta name="color:topbarbackground" content="#ffffff">
+    
+    <meta name="image:sidebar2" content=""/>
+    <meta name="image:sidebar" content=""/>
+    <meta name="image:icon" content="" />
+
+    <meta name="text:sub" content="Panem Forver" />
+    <meta name="text:link1" content="">
+    <meta name="text:link1 url" content="/">
+    <meta name="text:link2" content="">
+    <meta name="text:link2 url" content="/">
+    <meta name="text:link3" content="">
+    <meta name="text:link3 url" content="/">
+    <meta name="text:link4" content="">
+    <meta name="text:link4 url" content="/">
+    <meta name="text:link5" content="">
+    <meta name="text:link5 url" content="/">
+
+    <!--This defines the sidebar menu-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{Title}</title> {block:Description}<meta name="description" content="{MetaDescription}" />{/block:Description}
+    <link rel="shortcut icon" href="{Favicon}" />
+    <link rel="alternate" type="application/rss+xml" href="{RSS}" />
+
+    <style type="text/css">
+    
+/*This is scipt was borrowed! It is a continuation of script for the pop-up message. Here, I also tweaked a few of its functionalies here to customize it to my liking.*/
+
+iframe#tumblr_controls {right:3px !important; position: fixed !important;-webkit-transition: opacity 0.7s linear;opacity: 0.2;-webkit-transition: all 0.8s ease-out;-moz-transition: all 0.8s ease-out;transition: all 0.8s ease-out;}
+iframe#tumblr_controls:hover{-webkit-transition: opacity 0.7s linear;opacity: 1;-webkit-transition: all 0.4s ease-out;-moz-transition: all 0.4s ease-out;transition: all 0.4s ease-out;}    
+    
+    
+#fade { /*--Transparent background layer--*/
+	display: none; /*--hidden by default--*/
+	background: #000;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity: .90;
+	z-index: 9999;
+}
+.popup_block{
+	display: none; /*--hidden by default--*/
+	padding: 20px;
+	float: left;
+	font-size: 1em;
+	font-family:cambria;
+	letter-spacing:7px;
+	font-weight:lighter;
+	position: fixed;
+	top: 50%; left: 53%; 
+	z-index: 99999;
+}
+img.btn_close {
+	float: right;
+	margin: -5px -5px 0 0;
+}
+
+/*--Making IE6 Understand Fixed Positioning--*/
+*html #fade {
+	position: absolute;
+}
+*html .popup_block {
+	position: absolute;
+}    
+    
+        #updates {
+        position:fixed;
+        top:25px;
+        left:0px;
+        padding-left:15px;
+        font-family:Cambria;
+        font-size:11px;
+        text-align:justify;
+    }
+    
+    /*the tabs title */
+    #updates h3 {
+        text-transform:lowercase;
+        background:#000000;
+        padding:4px;lowercase;
+        font-size:9px;
+        text-align:center;
+        margin-top:0px;
+        color:#ffffff;
+    }
+
+/*These are the dots on the top left, and this edits how they are displayed*/    
+    .dot {
+        width:0px;
+        height:15px;
+        margin-bottom:15px;
+        border-radius:100%;
+        -webkit-transition:all .8s ease-in-out;
+        -moz-transition:all .8s ease-in-out;
+        -o-transition:all .8s ease-in-out;
+        -ms-transition:all .8s ease-in-out;
+        transition:all .8s ease-in-out;
+    }
+    
+    .updatebox {
+        position:absolute;
+        width:150px;
+        overflow:hidden;
+    }
+
+    .color1 {
+        background:#70f1fb;
+	    border-right: 15px solid #70f1fb;
+        color:#fff;
+    }
+    
+    .color2 {
+        background:#fb9cbc;
+	    border-right: 15px solid #fb9cbc;
+        color:#fff;
+    }
+    
+     .color3 {
+        background:#cab1da;
+	    border-right: 15px solid #cab1da;
+        color:#fff;
+    }
+    
+    .color4 {
+        background:#f8ea9e;
+	    border-right: 15px solid #f8ea9e;
+        color:#fff;
+    }
+    
+    .versionone {
+        margin-top:-30px;
+        left:-230px;
+        padding:10px 0px 10px 10px;
+        -webkit-transition:all .5s ease-in-out;
+        -moz-transition:all .5s ease-in-out;
+        -o-transition:all .5s ease-in-out;
+        -ms-transition:all .5s ease-in-out;
+        transition:all .5s ease-in-out;
+    }
+/*How the dots go from booring, to fab. Enables the hover capability*/
+    .dot:hover {
+	    border-bottom: 20px solid transparent;
+	    border-top: 20px solid transparent;
+	    border-left: 20px solid transparent;
+        width:0px;
+        height:0px;
+        background:transparent;
+        border-radius:0px;
+    }
+    
+    .dot:hover .versionone {
+        left:50px;
+        margin-top:-30px;
+    }
+    
+    .versiontwo {
+        width:0px;
+        max-height:0px;
+        left:50px;
+        -webkit-transition:all .5s ease-in-out;
+        -moz-transition:all .5s ease-in-out;
+        -o-transition:all .5s ease-in-out;
+        -ms-transition:all .5s ease-in-out;
+        transition:all .5s ease-in-out;
+    }
+    
+    .dot:hover .versiontwo {
+        margin-top:-30px;
+        width:150px;
+        max-height:400px;
+        padding:10px 0px 10px 10px;
+    }
+    
+
+/*enables the hover capaiblites of text*/
+   a {
+    text-decoration:none;
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    color:{color:link};
+    }
+   
+a:hover {
+    text-decoration:none;
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    color:{color:hover};
+    }
+ 
+/*customizing the scrollbar*/   
+::-webkit-scrollbar-thumb:vertical { height:12px; border:2px solid #fff; background-color:{color:scrollbar}; }
+::-webkit-scrollbar-thumb:horizontal { background-color:#fff; }
+::-webkit-scrollbar { width:2px; height:7px; border:5px solid #a09b97; background-color:{color:scrollbar}; }
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment{ display:block; height:8px; border-right:2px solid #000; border-left:2px solid #000; background-color:{color:scrollbar}; }
+ 
+/*defining the body and its attributes*/ 
+body {
+    font-family:cambria;
+    font-weight:lighter;
+    background-color:{color:bg};
+    }
+
+h1 {
+    font-family:cambria;
+    font-size:10px;
+    font-style:italic;
+    text-transform:normal;
+    color:{color:text};
+    text-align:center;
+    font-weight:lighter;
+    letter-spacing:1px;
+    }
+ 
+h2 {
+    font-family:'Bodoni MT Condensed';
+    font-style:italic;
+    font-size:20px;
+    letter-spacing:0px;
+    color:{color:title};
+    font-weight:lighter;
+    }
+    
+h3 {
+    font-family:'Bodoni MT Condensed';
+    font-size:20px;
+    font-weight:lighter;
+    text-align:center;
+    font-style:italic;
+    padding:20px;
+    padding-top:0px;
+    padding-bottom:0px;
+    }
+
+/*defining the topbar above the posts*/
+ #topbar {
+                position:fixed;
+                min-height:50px;
+                background-color:{color:topbarbackground};
+                max-height:300px;
+                width:430px;
+                margin-left:355px;
+                margin-top:-2px;
+                text-align:center;
+                }
+               
+                #title {
+                margin-top:30px;
+                margin-left:-1px;
+                font-size:18px;
+                font-weight:normal;
+                text-transform:lowercase;
+                }
+               
+                #title a {
+                letter-spacing:2px;
+                color:{color:title};
+                }
+               
+                #title a:hover {
+                letter-spacing:5px;
+                color:{color:title};
+                }
+                
+                #text:sub{
+                margin-left:5px;
+                }
+/*When a post has quoted content, this defines its output*/                
+blockquote {
+    padding:5px;
+    margin-top:5px;
+    margin-bottom:-7px;
+    text-align:center;
+    float:center;
+    }
+/*this is the part of the page where the post are seperated from the sidebar*/   
+#theme {
+    width:700px;
+    margin:0 auto -12px auto;
+    text-align:center;
+    background-color:{color:bg};
+    }
+    
+/*more sidebar customization and scripts*/    
+#sidebar {
+    position:fixed;
+    width:290px;
+    height:auto;
+    margin-left:-110px;
+    margin-top:109px;
+    z-index:100;
+    color:{color:text};
+    }
+    
+#sidebar img {
+    width:290px;
+    margin-bottom:6px;
+    height:auto;
+    }
+        
+#sidebar:hover .links {
+    opacity:1;
+    margin-top:5px;
+    -moz-transition-duration:0.6s;
+    -webkit-transition-duration:0.6s;
+    -o-transition-duration:0.6s;
+    }
+    
+.links {
+    opacity:0;
+    margin-top:30px;
+    margin-left:-5px;
+    width:290px;
+    text-align:center;
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    }
+ 
+.links a {
+    font-family:cambria;
+    font-style:italic;
+    font-weight:lighter;
+    font-size:9px;
+    color:{color:link};
+    padding:9px;
+    }
+    
+.links a:hover{
+    color:{color:hover};
+    }
+    
+#borders {
+    margin-top:14px;
+    width:290px;
+    margin-left:-1px;
+    z-index:9;
+    }
+ 
+.border1 {
+    width:80px;
+    margin-top:-2px;
+    height:3px;
+    background-color:{color:border1};
+    -moz-transition-duration:0.4s;
+    -webkit-transition-duration:0.4s;
+    -o-transition-duration:0.4s;
+    }
+.border2 {
+    width:80px;
+    margin-left:50px;
+    margin-top:-3px;
+    height:3px;
+    background-color:{color:border2};
+    -moz-transition-duration:0.4s;
+    -webkit-transition-duration:0.4s;
+    -o-transition-duration:0.4s;
+    }
+    
+.border3 {
+    width:90px;
+    margin-left:120px;
+    margin-top:-3px;
+    height:3px;
+    background-color:{color:border3};
+    -moz-transition-duration:0.4s;
+    -webkit-transition-duration:0.4s;
+    -o-transition-duration:0.4s;
+    }
+.border4 {
+    margin-left:90px;
+    margin-left:135px;
+    margin-top:-3px;
+    height:3px;
+    background-color:{color:border4};
+    -moz-transition-duration:0.4s;
+    -webkit-transition-duration:0.4s;
+    -o-transition-duration:0.4s;
+    }
+    
+#sidebar:hover .border1 {
+    background-color:{color:border4};
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    } 
+    
+#sidebar:hover .border2 {
+    background-color:{color:border1};
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    }
+    
+#sidebar:hover .border3 {
+    background-color:{color:border2};
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    } 
+    
+#sidebar:hover .border4 {
+    background-color:{color:border3};
+    -moz-transition-duration:0.5s;
+    -webkit-transition-duration:0.5s;
+    -o-transition-duration:0.5s;
+    }
+
+.desc {
+    width:320px;
+    margin-top:-2px;
+    font-family: 'Muli', sans-serif;
+    font-size:8.2px;
+    line-height:150%;
+    text-align:justify;
+    }
+   
+.desc a {
+    color:{color:link};
+    }
+
+/*the container for all posts including, pictures, texts, comments, etc.*/    
+#stuffcontainer {
+    float:left;
+    margin-left:350px;
+    margin-top:35px;
+    text-align:justify;
+    color:{color:text};
+    background-color:{color:bg};
+    padding:15px;
+    }
+ 
+#stuff {
+    width:400px;
+    margin-top:65px;
+    text-align:justify;
+    font-size:9px;
+    font-family:cambria;
+    font-style:normal;
+    line-height:170%;
+    color:{color:text};
+    margin-bottom:70px;
+    }
+    
+.caption {
+    width:400px;
+    text-align:justify;
+    line-height:120%;
+    }
+    
+/*this sets the format on how the messaged posts look like. (when viewer asks questions are published by the user[aka me])*/ 
+
+#question {
+    z-index:10;
+    padding:10px;
+    text-align:justify;
+    line-height:10px;
+    min-height:50px;
+    background-color:#70f1fb;
+    padding-bottom:10px
+    border-bottom:1px solid #f1f0f0;
+    }
+   
+.question {
+    margin-left:55px;
+    }
+   
+.asker {
+    margin:5px 0px 4px 60px;
+    font-size:11px
+    font-family:cambria
+    font-style:italic;
+    color:#ffffff;
+    }    
+   
+.asker a {
+    margin-left:-5px;
+    }
+   
+.portrait {
+    position:absolute;
+    height:48px;
+    width:48px;
+    }    
+ 
+.portrait img {
+    border:3px solid {color:border};
+    }
+    
+/*These are for the audio posts. When music/audio is posted this is the code that displays them to my liking. This is took forever*/
+    .mus {
+    width:400px;
+    min-height: 100px;
+    height: 100px;
+    padding: 0px 20px;
+    padding-left: 0px;
+    display: table;
+    }
+       
+.mus img {
+    width: 100px;
+    position: absolute;
+    }
+ 
+.minfo {
+    margin-left: 50px;
+    padding-left: 120px;
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: {color:ask};
+    color: {color:sidelink};
+    font-size: 8px;
+    font-family: calibri;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    }
+    
+    .audioverlay {
+    margin-top: 27px;
+    margin-left: 27px;
+    opacity: 0.7;
+    position: absolute;
+    z-index: 10000;
+    }
+ 
+.audioarrow {
+    margin: 8px 17px 6px 9px;
+    width: 25px;
+    height: 30px;
+    overflow: hidden;
+    }
+ 
+/*When a post is clicked, it displays the information about that post and all of it's popularity on the internet. On tumblr, these are called notes, similar to likes on facebook.*/
+
+#postinfo {
+    font-family:'Muli', sans-serif;
+    width:390px;
+    padding:6px;
+    font-size:8px;
+    font-style:normal;
+    font-weight:lighter;
+    text-transform:lowercase;
+    letter-spacing:1px;
+    text-align:right;
+    color:{color:sidebar background};
+    }
+ 
+#postinfo a {
+    padding:3px;
+    color:{color:sidebar background};
+    font-style:normal;
+    }
+   
+#postinfo a:hover {
+    text-decoration:none;
+    color:{color:link};
+    }
+
+.note {
+    font-family:'Muli', sans-serif;
+    text-transform:lowercase;
+    font-style:none;
+    font-size:10px;
+    text-align:center;
+    line-height:150%;
+    margin-left:-2px;
+    margin-bottom:10px;
+    }
+   
+    .note li {
+    list-style-type:none;
+    padding:10px 25px 10px 25px;
+    text-align:left;
+    margin:0px;
+    }
+
+ol.notes li.note img.avatar {
+    :25px; position:relative; background-color:{color:sidebar background};}
+ol.notes li {
+    list-style:none;
+    margin-left:-40px;
+    padding:4px;
+    }
+ol.notes li img {
+    list-style:none;  
+    margin-bottom:-5px;
+    padding-right:4px;
+    margin-right:5px;
+    opacity:0.9;
+    }
+       
+   
+.chat ol {
+    line-height:170%;
+    list-style:none;
+    width:400px;
+    margin-left:-40px;
+    }
+ 
+.line.odd {
+    background:#42e2f3;
+    color:#ffffff;
+    margin-bottom:2px;
+    padding:4px;
+    }
+ 
+.line.even {
+    background:#00000;
+    margin-bottom:2px;
+    padding:4px;
+    }
+
+    
+/*This is where the page numbers are and this is how the appear*/   
+#pagination {
+    position:fixed;
+    font-size:10px;
+    line-height:500%;
+    font-weight:lighter;
+    right:741px;
+    bottom:51px;
+    text-align:center;
+    padding:4px;
+    text-transform:italic;
+    letter-spacing:0px;
+    border-left:{color:borders} 1px solid;
+    }
+   #pagination a {
+    padding:1px;
+    }
+   
+#pagination a:hover {
+    color:{color:hover};
+    }
+
+/*Tumblr has tags just like instagram and this allows it to be hidden and only appear when hovered over by the user.When tags are clicked they display any all those posts with that tag.*/
+
+.tags {
+    position:absolute;
+    margin-top:5px;
+    width:390px;
+    padding:6px;
+    font-family:'Muli', sans-serif;
+    font-size:9px;
+    font-style:italic;
+    font-weight:lighter;
+    text-align:right;
+    display:inline;
+    }
+   
+.tags a {
+    letter-spacing:0px;
+    padding:0px;
+    color:{color:tags}
+    }
+   
+.tags a:hover {
+    color:{color:sidebar background};
+    } 
+    
+.tags1 {
+    position:absolute;
+    width:390px;
+    padding-top:0px;
+    text-align:center;
+    opacity:0;
+    -webkit-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    }
+   
+#stuff:hover .tags1 {
+    opacity:1;
+    -webkit-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out; }
+ 
+ 
+    {CustomCSS}
+    
+ /*Here's the body. Where all the previous setting up comes to life. Also, here is where the magic happens.*/
+ 
+    </style></head>
+<body>
+
+<!--Oh and by the way, tumblr allows for the colors and other attributes to be customized in its own editer using the meta name and other div elements.-->
+
+<div id="theme">
+
+<!--On the upper left hand corner, there are little dots. These are updates for my followers (who a very few in number) to know what's going on with my lame and stressful life as a college student. This allows it to display the given text.-->
+
+<div id="updates">
+    		
+    		<!-- version one color one -->
+    		<div class="dot color1">
+			<div class="updatebox versionone color1">
+				 <h3>Currently reading</h3>
+				 <center>All of my school textbooks.</center>
+			</div>
+		</div>
+		
+		<!-- version two color two -->
+		<div class="dot color2">
+		 	<div class="updatebox versiontwo color2">
+		 		<h3>Current Watching</h3>
+		 		<center> My brain disintegrate </center>
+		 	</div>
+		 </div>
+		 
+		 <!-- version two color one -->
+		 <div class="dot color3">
+		  	<div class="updatebox versiontwo color3">
+		  		<h3>Current Status</h3>
+		  		<center> On hiatus for finals
+		  		</center>
+		  	</div>
+		  </div>
+		  
+		  <!-- version one color two -->
+		  <div class="dot color4" style="margin-bottom:0px">
+		   	<div class="updatebox versiontwo color4">
+		   		<h3>Life Update</h3>
+		   		<center>Currently dying</center>
+		   	</div>
+		   </div>
+		   
+	</div>
+	
+<!--Again, the sidebar. This literally was the source of my agony.-->	
+<div id="sidebar">
+<img src="{image:sidebar}">
+<img src="{image:sidebar2}">
+<p>
+<div class="desc">
+<a href="/"><img src="{image:icon}" src="{PortraitURL-128}" style="width: 50px; padding:10px;background:{color:navi bg};display:block;margin:-12px 5px 22px -10px;float:left;"/></a>
+{description} 
+</div>
+</p>
+<div id="borders">
+<div class="border1"></div>
+<div class="border2"></div>
+<div class="border3"></div>
+<div class="border4"></div>
+</div>
+<div class="links">
+{block:IfLink1}
+<a href="{text:link1 url}">{text:link1}</a>
+{/block:IfLink1}
+{block:IfLink2}
+<a href="#?w=500" rel="02" class="poplight">Message</a>
+{/block:IfLink2}
+{block:IfLink3}
+<a href="{text:link3 url}">{text:link3}</a>
+{/block:IfLink3}
+{block:IfLink4}
+<a href="{text:link4 url}">{text:link4}</a>
+{/block:IfLink4}
+{block:IfLink5}
+<a href="{text:link5 url}">{text:link5}</a>
+{/block:IfLink5}
+</div>
+</div>
+
+<!--topbar comes to life-->
+ <div id="topbar">
+ <center>
+            <div id="title"><a href="/"> <center>{Title}</center> </a></div>
+            <div style="font-weight:bold;font-color:#686461;font-size:7px;letter-spacing:3.5px;margin-top:8px;margin-bottom:15px;margin-left:2px;text-transform:uppercase;">{text:sub}</div>
+            </div>
+
+<!--Without this nothing in the stuff/post container would exist. It's essential!-->
+
+<div class = "autopagerize_page_element" >            
+  <div id="stuffcontainer">
+ 
+{block:Posts}
+ 
+<div id="stuff">
+
+
+{block:Text}{block:Title}<h2>{Title}</h2>{/block:Title}{Body}{/block:Text}
+ 
+{block:Quote}<h3>“{Quote}”</h3><h1>— {Source} —</h1>{/block:Quote}
+ 
+{block:Link}<a href="{URL}"><h2>{Name}</h2></a>
+{block:Description}<p>{Description}</p>{/block:Description}{/block:Link}
+ 
+{block:Photo}<center><img src="{PhotoURL-400}"/></center>{block:Caption}{Caption}{/block:Caption}{/block:Photo}
+ 
+{block:Photoset}<center>{Photoset-400}</center>
+{block:Caption}{Caption}{/block:Caption}{/block:Photoset}
+ 
+{block:Chat}{block:Title}<h1>{Title}</h1>{/block:Title}<div class="chat"><ol>{block:Lines}<li class="line {Alt}">{block:Label}<span class="label">{Label}</span>{/block:Label}{Line}</li>{/block:Lines}</ol></div>{/block:Chat}
+ 
+{block:Video}{Video-400}{block:Caption}{Caption}{/block:Caption}{/block:Video}
+
+<!--for the displayed messgaes/asks-->
+{block:Answer}<div id="question"><div class="portrait"><img src="{AskerPortraitURL-40}"></div><div class="asker">{Asker}:</div><div class="question">{Question}</div></div><center>{Answer}</center>{/block:Answer}
+ 
+<!--For the music posts to appear and play glorious sounds--> 
+{block:Audio} 
+<div class="mus">
+{block:AudioPlayer}
+<div class="audioverlay">
+<div class="audioarrow">
+{AudioPlayerWhite}
+</div>  
+</div>
+
+{block:AlbumArt}
+<img class="cover" src="{AlbumArtURL}" />
+{/block:AlbumArt}
+ 
+<div class="minfo">
+{block:TrackName}{TrackName}{/block:TrackName}<br>
+{block:Artist}{Artist}{/block:Artist}<Br>
+{block:Album}{Album}{/block:Album}<br>
+{block:Playcount}{Playcount} Plays{/block:Playcount}
+</div>
+</div>
+{/block:AudioPlayer}  
+
+{block:AudioEmbed}{AudioEmbed-400}</div>{/block:AudioEmbed}
+
+{block:Caption}{Caption}{/block:Caption}
+{/block:Audio}
+
+<!--this is how the date at the bottom of the posts appears-->
+{block:Date}
+<div id="postinfo">
+<a href="{Permalink}">{DayOfMonthWithZero} {Month} {Year}</a>
+&nbsp; {block:NoteCount}<a href="{Permalink}"><font style="color:red;font-size:9px">&hearts;&nbsp;</font><font color=#686461>{NoteCount}</font></a>{/block:NoteCount}{block:RebloggedFrom}{block:IndexPage}&emsp;&emsp;{/block:IndexPage}<font color=#686461> &nbsp;via &nbsp;</font> <a href="{ReblogParentURL}">{ReblogParentName}</a>
+{block:ContentSource}<font color=#686461>&emsp;&copy;&nbsp;</font><a href="{ReblogRootURL}">{ReblogRootName}</a>{/block:ContentSource}{/block:RebloggedFrom}
+</div>
+{/block:Date}
+
+<!--this is why the hashtags lok so cool-->
+{block:HasTags}
+<div class="tags"><div class="tags1">
+{block:Tags}<a style="color:{color:border1}">&#9632;</a>&nbsp;<a href="{TagURL}">{Tag}&nbsp;&nbsp;</a>&nbsp;&nbsp;{/block:Tags}</div>
+{/block:HasTags}
+<div class="note">
+{block:PostNotes}<font color=#686461>{PostNotes}</font>{/block:PostNotes}
+</div>
+</div>
+{/block:Posts}
+{block:ContentSource}
+<!-- {SourceURL}{block:SourceLogo}<img src="{BlackLogoURL}"
+width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
+{/block:SourceLogo}
+{block:NoSourceLogo}{SourceLink}{/block:NoSourceLogo} -->
+{/block:ContentSource}
+
+<!--The only reason why there are any pages to go through. Otherwise, it would be an endloss scroll.-->
+{block:Pagination}
+<div id="pagination">
+
+      {block:JumpPagination length="5"}
+            {block:CurrentPage}
+                  <span class="current_page">{PageNumber}</span>
+            {/block:CurrentPage}
+
+            {block:JumpPage}
+                  <a class="jump_page" href="{URL}">{PageNumber}</a>
+            {/block:JumpPage}
+      {/block:JumpPagination}
+
+</div>
+{/block:Pagination}
+
+<div id="cosa">
+ 
+ 
+<!--(In regards to my div id, please excuse my french. I was fed up with this code at this point.) This is how the pop-up message displays. When the viewer sends a message, it gets sent to my inbox and if I choose to answer that message publically, it will be displayed on this page in my customized format.--> 
+<div id="shit">
+</div>
+</div>
+</body>
+<div id="02" class="popup_block">
+
+<Center><font size="5" color="#ffffff">c o n f e s s<p></font><iframe frameborder="0" scrolling="yes" width="100%" height="190" src="http://www.tumblr.com/ask_form/neversbeenhurt.tumblr.com" style="background-color:transparent;overflow:hidden;" id="ask_form">
+</center></div>
+
+</div></div></div></div></div></div></div></div></div></div>
+</html>
+
+<!--After almost a thousand lines of code, it is complete.-->
